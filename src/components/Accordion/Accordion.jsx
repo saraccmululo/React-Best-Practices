@@ -1,0 +1,25 @@
+import { createContext, useState } from "react";
+
+const AccordionContext = createContext();
+
+export const Accordion = ({ children, className }) => {
+  const [openItemId, setOpenItemId]= useState()
+  
+  function openItem(id) {
+    setOpenItemId(id);
+  }
+  function closeItem() {
+    setOpenItemId(null);
+  }
+
+  const contextValue={
+    openItemId: openItemId,
+    openItem: openItem,
+    closeItem: closeItem
+  }
+  return (
+    <AccordionContext.Provider value={contextValue}>
+      <ul className={className}>{children}</ul>
+    </AccordionContext.Provider>
+  );
+};
