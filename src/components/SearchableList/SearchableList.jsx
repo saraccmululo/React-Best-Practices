@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const SearchableList = ({ items, itemKeyFn, children }) => {
   const lastChange=useRef();
@@ -9,13 +9,12 @@ const SearchableList = ({ items, itemKeyFn, children }) => {
 
   function handleChange(event) {
     if(lastChange.current) {
-      clearTimeout(lastChange.current)
+      clearTimeout(lastChange.current)//clear the previous timer, not the timeout Id
     }
 
-
     lastChange.current= setTimeout(()=>{
-      lastChange.current = null
-      setSearchTerm(event.target.value)}, 500);
+      setSearchTerm(event.target.value)}, 500);//If the user types again before 500ms, the previous timeout is canceled again. Only when the user stops typing for 500ms, the function runs and updates the state.
+      lastChange.current = null// clear the old timeout ID
     ;
   }
 
